@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure Speech Services</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        .box {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+        }
+        textarea, input[type="file"] {
+            width: 100%;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 16px;
+            cursor: pointer;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Speech Studio Website</h1>
+
+    <div class="box">
+        <h2>Text to Speech</h2>
+        <form action="/text-to-speech" method="post">
+            <textarea name="text" rows="5" placeholder="Enter text here"></textarea>
+            <button type="submit">Synthesize Speech</button>
+        </form>
+
+        {% if tts_success %}
+            <p class="success">{{ tts_success }}</p>
+        {% endif %}
+
+        {% if tts_error %}
+            <p class="error">{{ tts_error }}</p>
+        {% endif %}
+
+        {% if audio_file %}
+            <audio controls>
+                <source src="{{ url_for('audio_file', filename=audio_file) }}" type="audio/wav">
+            </audio>
+        {% endif %}
+    </div>
+
+    <div class="box">
+        <h2>Speech to Text</h2>
+        <form action="/speech-to-text" method="post" enctype="multipart/form-data">
+            <input type="file" name="audio" accept=".wav">
+            <button type="submit">Transcribe Audio</button>
+        </form>
+
+        {% if stt_success %}
+            <p class="success">{{ stt_success }}</p>
+        {% endif %}
+
+        {% if stt_error %}
+            <p class="error">{{ stt_error }}</p>
+        {% endif %}
+
+        {% if transcription %}
+            <h3>Transcription:</h3>
+            <p>{{ transcription }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>
