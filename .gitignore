@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.env
+.cog/
+uploads/
+static/uploads/
+static/outputs/
